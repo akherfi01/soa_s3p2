@@ -1,0 +1,55 @@
+<definitions name="DoctorService"
+             targetNamespace="http://example.com/doctors"
+             xmlns:tns="http://example.com/doctors"
+             xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+             xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
+             xmlns="http://schemas.xmlsoap.org/wsdl/">
+    <types>
+        <xsd:schema targetNamespace="http://example.com/doctors">
+            <xsd:element name="AddDoctorRequest">
+                <xsd:complexType>
+                    <xsd:sequence>
+                        <xsd:element name="name" type="xsd:string"/>
+                        <xsd:element name="specialty" type="xsd:string"/>
+                    </xsd:sequence>
+                </xsd:complexType>
+            </xsd:element>
+            <xsd:element name="AddDoctorResponse">
+                <xsd:complexType>
+                    <xsd:sequence>
+                        <xsd:element name="doctorId" type="xsd:int"/>
+                    </xsd:sequence>
+                </xsd:complexType>
+            </xsd:element>
+        </xsd:schema>
+    </types>
+    <message name="AddDoctorRequestMessage">
+        <part name="parameters" element="tns:AddDoctorRequest"/>
+    </message>
+    <message name="AddDoctorResponseMessage">
+        <part name="parameters" element="tns:AddDoctorResponse"/>
+    </message>
+    <portType name="DoctorPortType">
+        <operation name="AddDoctor">
+            <input message="tns:AddDoctorRequestMessage"/>
+            <output message="tns:AddDoctorResponseMessage"/>
+        </operation>
+    </portType>
+    <binding name="DoctorBinding" type="tns:DoctorPortType">
+        <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+        <operation name="AddDoctor">
+            <soap:operation soapAction="AddDoctor"/>
+            <input>
+                <soap:body use="literal"/>
+            </input>
+            <output>
+                <soap:body use="literal"/>
+            </output>
+        </operation>
+    </binding>
+    <service name="DoctorService">
+        <port name="DoctorPort" binding="tns:DoctorBinding">
+            <soap:address location="http://localhost:5000/soap/doctors"/>
+        </port>
+    </service>
+</definitions>

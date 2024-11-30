@@ -1,4 +1,4 @@
-
+from spyne import rpc, ServiceBase, Integer, String
 patients_db = {}
 
 

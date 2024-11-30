@@ -1,4 +1,4 @@
-from spyne import Application, rpc, ServiceBase, Integer, Unicode, String, Iterable, Float
+from spyne import Application
 from spyne.protocol.soap import Soap11
 from spyne.server.wsgi import WsgiApplication
 from flask import Flask
@@ -6,9 +6,9 @@ from werkzeug.middleware.dispatcher import DispatcherMiddleware
 
 
 
-from ./medical_records/medical_record_service.py import *
-from ./prescriptions/prescription_services.py import *
-from ./doctors/doctor_service.py import *
+from medical_records.medical_record_service import *
+from prescriptions.prescription_service import *
+from doctors.doctor_service import *
 
 
 # Création de l'application principale

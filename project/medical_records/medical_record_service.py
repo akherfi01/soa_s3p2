@@ -1,52 +1,34 @@
-from spyne import Application, rpc, ServiceBase, Integer, Unicode, Fault
-from spyne.protocol.soap import Soap11
-from spyne.server.wsgi import WsgiApplication
-from database.models import MedicalRecord, session
 
-class MedicalRecordService(ServiceBase):
-    @rpc(Unicode, Unicode, _returns=Integer)
-    def create_record(ctx, patient_name, details):
-        """Create a new medical record."""
-        record = MedicalRecord(patient_name=patient_name, details=details)
-        session.add(record)
-        session.commit()
-        return record.id
+patients_db = {}
 
-    @rpc(Integer, _returns=Unicode)
-    def read_record(ctx, record_id):
-        """Read a medical record by ID."""
-        record = session.query(MedicalRecord).filter_by(id=record_id).first()
-        if not record:
-            raise Fault(faultcode="Client", faultstring="Medical record not found")
-        return f"Patient Name: {record.patient_name}, Details: {record.details}"
 
-    @rpc(Integer, Unicode, Unicode, _returns=Unicode)
-    def update_record(ctx, record_id, patient_name, details):
-        """Update an existing medical record."""
-        record = session.query(MedicalRecord).filter_by(id=record_id).first()
-        if not record:
-            raise Fault(faultcode="Client", faultstring="Medical record not found")
-        record.patient_name = patient_name
-        record.details = details
-        session.commit()
-        return "Medical record updated successfully"
+# Service de gestion des dossiers médicaux
+class MedicalRecordsService(ServiceBase):
+    @rpc(Integer, String, String, String, _returns=String)
+    def create_record(ctx, patient_id, name, age, diagnosis):
+        if patient_id in patients_db:
+            return "Erreur : Le dossier du patient existe déjà."
+        patients_db[patient_id] = {"name": name, "age": age, "diagnosis": diagnosis}
+        return f"Dossier médical du patient {name} créé avec succès."
 
-    @rpc(Integer, _returns=Unicode)
-    def delete_record(ctx, record_id):
-        """Delete a medical record by ID."""
-        record = session.query(MedicalRecord).filter_by(id=record_id).first()
-        if not record:
-            raise Fault(faultcode="Client", faultstring="Medical record not found")
-        session.delete(record)
-        session.commit()
-        return "Medical record deleted successfully"
+    @rpc(Integer, _returns=String)
+    def get_record(ctx, patient_id):
+        record = patients_db.get(patient_id)
+        if record:
+            return f"Dossier : {record}"
+        return "Erreur : Aucun dossier trouvé pour cet ID."
 
-# Spyne Application
-app = Application(
-    [MedicalRecordService],
-    tns="http://example.com/medicalrecords",
-    in_protocol=Soap11(validator="lxml"),
-    out_protocol=Soap11()
-)
+    @rpc(Integer, String, _returns=String)
+    def update_record(ctx, patient_id, new_diagnosis):
+        if patient_id in patients_db:
+            patients_db[patient_id]["diagnosis"] = new_diagnosis
+            return f"Diagnostic mis à jour : {new_diagnosis}"
+        return "Erreur : Aucun dossier trouvé pour cet ID."
 
-wsgi_app = WsgiApplication(app)
+    @rpc(Integer, _returns=String)
+    def delete_record(ctx, patient_id):
+        if patient_id in patients_db:
+            del patients_db[patient_id]
+            return "Dossier supprimé avec succès."
+        return "Erreur : Aucun dossier trouvé pour cet ID."
+

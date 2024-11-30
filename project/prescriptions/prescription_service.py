@@ -1,3 +1,5 @@
+from spyne import rpc, ServiceBase, Integer,String, Iterable
+from medical_records.medical_record_service import patients_db
 prescriptions_db = {}
 # Service de gestion des prescriptions
 class PrescriptionsService(ServiceBase):

@@ -1,3 +1,4 @@
+from spyne import rpc, ServiceBase, Integer, String, Iterable
 doctors_db = {}
 # Service de gestion des docteurs
 

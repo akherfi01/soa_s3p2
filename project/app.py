@@ -7,6 +7,7 @@ from werkzeug.middleware.dispatcher import DispatcherMiddleware
 
 
 from ./medical_records/medical_record_service.py import *
+from ./prescriptions/prescription_services.py import *
 
 
 # Création de l'application principale

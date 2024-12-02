@@ -1,9 +1,12 @@
 from sqlalchemy import create_engine, Column, Integer, String, Text
 from sqlalchemy.ext.declarative import declarative_base
+from sqlalchemy.orm import sessionmaker
 
 Base = declarative_base()
 engine = create_engine('sqlite:///clinic.db', echo=True)
 
+Session = sessionmaker(bind=engine)
+session = Session()
 class MedicalRecord(Base):
     __tablename__ = 'medical_records'
     id = Column(Integer, primary_key=True)

@@ -18,6 +18,7 @@ appointments_bp = Blueprint('appointments', __name__)
 
 @appointments_bp.route('/appointments', methods=['POST'])
 def create_appointment():
+    """Create a new appointment."""
     data = request.json
     appointment = Appointment(
         patient_id=data['patient_id'],
@@ -27,6 +28,22 @@ def create_appointment():
     session.add(appointment)
     session.commit()
     return jsonify({"message": "Appointment created", "appointment_id": appointment.id}), 201
+
+
+@appointments_bp.route('/appointments', methods=['GET'])
+def get_appointments():
+    """Retrieve all appointments."""
+    appointments = session.query(Appointment).all()
+    if not appointments:
+        return jsonify({"message": "No appointments found"}), 404
+    return jsonify([{
+        "id": appointment.id,
+        "patient_id": appointment.patient_id,
+        "doctor_id": appointment.doctor_id,
+        "appointment_time": appointment.appointment_time.isoformat(),
+        "status": appointment.status
+    } for appointment in appointments])
+
 
 @appointments_bp.route('/appointments/<int:appointment_id>', methods=['GET'])
 def get_appointment(appointment_id):

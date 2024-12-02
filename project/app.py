@@ -42,6 +42,14 @@ app.wsgi_app = DispatcherMiddleware(
 def home():
     return "Services disponibles:\nSOAP: /soap\nREST: /api"
 
+@app.route("/debug/routes")
+def debug_routes():
+    routes = []
+    for rule in app.url_map.iter_rules():
+        routes.append({"endpoint": rule.endpoint, "methods": list(rule.methods), "url": str(rule)})
+    return {"routes": routes}
+
+
 if __name__ == "__main__":
     print("Running application...")
     print("SOAP Services available at /soap")

@@ -1,29 +1,45 @@
-from spyne import rpc, ServiceBase, Integer, String, Iterable
-doctors_db = {}
-# Service de gestion des docteurs
+from spyne import rpc, ServiceBase, Integer, String, Iterable, Fault
+from database.models import Doctor, session
 
 class DoctorsService(ServiceBase):
-    @rpc(Integer, String, String, _returns=String)
-    def add_doctor(ctx, doctor_id, name, specialty):
-        if doctor_id in doctors_db:
-            return "Erreur : Le médecin existe déjà."
-        doctors_db[doctor_id] = {"name": name, "specialty": specialty}
-        return f"Médecin {name} ajouté avec succès."
+    @rpc(String, String, _returns=String)
+    def add_doctor(ctx, name, specialty):
+        """Add a new doctor."""
+        doctor = Doctor(name=name, specialty=specialty)
+        session.add(doctor)
+        session.commit()
+        return f"Médecin {name} ajouté avec succès, ID: {doctor.id}"
+
+    @rpc(Integer, _returns=String)
+    def get_doctor(ctx, doctor_id):
+        """Retrieve a doctor's details by ID."""
+        doctor = session.query(Doctor).filter_by(id=doctor_id).first()
+        if not doctor:
+            raise Fault(faultcode="Client", faultstring="Erreur : Médecin introuvable.")
+        return f"Nom: {doctor.name}, Spécialité: {doctor.specialty}"
 
     @rpc(Integer, String, _returns=String)
     def update_doctor(ctx, doctor_id, new_specialty):
-        if doctor_id in doctors_db:
-            doctors_db[doctor_id]["specialty"] = new_specialty
-            return f"Spécialité mise à jour pour le médecin ID {doctor_id}."
-        return "Erreur : Médecin introuvable."
+        """Update a doctor's specialty."""
+        doctor = session.query(Doctor).filter_by(id=doctor_id).first()
+        if not doctor:
+            raise Fault(faultcode="Client", faultstring="Erreur : Médecin introuvable.")
+        doctor.specialty = new_specialty
+        session.commit()
+        return f"Spécialité mise à jour pour l'ID {doctor_id}: {new_specialty}"
 
     @rpc(Integer, _returns=String)
     def delete_doctor(ctx, doctor_id):
-        if doctor_id in doctors_db:
-            del doctors_db[doctor_id]
-            return "Médecin supprimé avec succès."
-        return "Erreur : Médecin introuvable."
+        """Delete a doctor by ID."""
+        doctor = session.query(Doctor).filter_by(id=doctor_id).first()
+        if not doctor:
+            raise Fault(faultcode="Client", faultstring="Erreur : Médecin introuvable.")
+        session.delete(doctor)
+        session.commit()
+        return f"Médecin ID {doctor_id} supprimé avec succès."
 
     @rpc(_returns=Iterable(String))
     def list_doctors(ctx):
-        return [f"ID: {id}, Nom: {info['name']}, Spécialité: {info['specialty']}" for id, info in doctors_db.items()]
+        """List all doctors."""
+        doctors = session.query(Doctor).all()
+        return [f"ID: {d.id}, Nom: {d.name}, Spécialité: {d.specialty}" for d in doctors]

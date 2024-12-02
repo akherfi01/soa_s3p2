@@ -5,8 +5,8 @@ class PrescriptionsService(ServiceBase):
     @rpc(Integer, String, _returns=String)
     def add_prescription(ctx, patient_id, prescription_details):
         """Add a prescription for a patient."""
-        prescription = Prescription(patient_id=patient_id, medication=prescription_details.split(':')[0],
-                                    dosage=prescription_details.split(':')[1])
+        prescription = Prescription(patient_id=patient_id, medication=prescription_details
+                                    )
         session.add(prescription)
         session.commit()
         return f"Prescription ajoutée pour le patient ID {patient_id}, ID de prescription: {prescription.id}"
@@ -17,4 +17,4 @@ class PrescriptionsService(ServiceBase):
         prescriptions = session.query(Prescription).filter_by(patient_id=patient_id).all()
         if not prescriptions:
             return ["Erreur : Aucune prescription trouvée pour cet ID."]
-        return [f"ID: {p.id}, Médicament: {p.medication}, Dosage: {p.dosage}" for p in prescriptions]
+        return [f"ID: {p.id}, Médicament: {p.medication}" for p in prescriptions]

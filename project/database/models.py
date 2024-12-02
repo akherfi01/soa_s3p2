@@ -20,7 +20,6 @@ class Prescription(Base):
     id = Column(Integer, primary_key=True)
     patient_id = Column(Integer, nullable=False)
     medication = Column(String, nullable=False)
-    dosage = Column(String, nullable=False)
 
 
 class Doctor(Base):

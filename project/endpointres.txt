@@ -1,0 +1,41 @@
+{
+  "routes": [
+    {
+      "endpoint": "static",
+      "methods": [
+        "OPTIONS",
+        "HEAD",
+        "GET"
+      ],
+      "url": "/static/\u003Cpath:filename\u003E"
+    },
+   appointments.create_appointment""POST""url": "/api/appointments"
+   appointments.get_appointments "methods""GET""url": "/api/appointments"
+   appointments.get_appointment""methods""GET""url": "/api/appointments/\u003Cint:appointment_id\u003E"
+   appointments.cancel_appointment""DELETE""url": "/api/appointments/\u003Cint:appointment_id\u003E"
+   
+   
+   notifications.send_email_notification""POST""url": "/api/notifications/email"
+   follow_up.get_patient_history""GET""url": "/api/patients/\u003Cint:patient_id\u003E/history"
+   follow_up.get_all_patient_histories""GET""url": "/api/patients/history"
+    },
+    {
+      "endpoint": "home",
+      "methods": [
+        "OPTIONS",
+        "HEAD",
+        "GET"
+      ],
+      "url": "/"
+    },
+    {
+      "endpoint": "debug_routes",
+      "methods": [
+        "OPTIONS",
+        "HEAD",
+        "GET"
+      ],
+      "url": "/debug/routes"
+    }
+  ]
+}

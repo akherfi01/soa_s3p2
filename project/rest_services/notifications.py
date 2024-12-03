@@ -1,23 +1,19 @@
-from flask import Blueprint, request, jsonify
-from flask_mail import Mail, Message
+from flask import Blueprint, jsonify, request
 
-# Setup Mail
-mail = Mail()
-notifications_bp = Blueprint('notifications', __name__)
+notifications_bp = Blueprint("notifications", __name__)
 
-def configure_mail(app):
-    app.config['MAIL_SERVER'] = 'smtp.example.com'
-    app.config['MAIL_PORT'] = 587
-    app.config['MAIL_USERNAME'] = 'your-email@example.com'
-    app.config['MAIL_PASSWORD'] = 'your-password'
-    app.config['MAIL_USE_TLS'] = True
-    app.config['MAIL_USE_SSL'] = False
-    mail.init_app(app)
+# Envoi des notifications
+@notifications_bp.route("/notifications", methods=["POST"])
+def send_notification():
+    data = request.get_json()
+    recipient = data["recipient"]
+    notification_type = data["type"]  # "email" ou "sms"
+    message = data["message"]
 
-@notifications_bp.route('/notifications/email', methods=['POST'])
-def send_email_notification():
-    data = request.json
-    msg = Message(data['subject'], sender='your-email@example.com', recipients=[data['recipient']])
-    msg.body = data['message']
-    mail.send(msg)
-    return jsonify({"message": "Email sent"}), 200
+    # Simuler l'envoi de la notification
+    if notification_type == "email":
+        return jsonify({"message": f"E-mail envoyé à {recipient}", "content": message}), 200
+    elif notification_type == "sms":
+        return jsonify({"message": f"SMS envoyé à {recipient}", "content": message}), 200
+    else:
+        return jsonify({"error": "Type de notification non supporté"}), 400

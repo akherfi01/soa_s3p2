@@ -2,15 +2,15 @@ from flask import Blueprint, jsonify, request
 
 notifications_bp = Blueprint("notifications", __name__)
 
-# Envoi des notifications
+# Send notifications
 @notifications_bp.route("/notifications", methods=["POST"])
 def send_notification():
     data = request.get_json()
     recipient = data["recipient"]
-    notification_type = data["type"]  # "email" ou "sms"
+    notification_type = data["type"]  # "email" or "sms"
     message = data["message"]
 
-    # Simuler l'envoi de la notification
+    # Simulate sending notification
     if notification_type == "email":
         return jsonify({"message": f"E-mail envoyé à {recipient}", "content": message}), 200
     elif notification_type == "sms":

@@ -1,0 +1,91 @@
+{
+  "routes": [
+    {
+      "endpoint": "static",
+      "methods": [
+        "OPTIONS",
+        "HEAD",
+        "GET"
+      ],
+      "url": "/static/\u003Cpath:filename\u003E"
+    },
+    {
+      "endpoint": "appointments.create_appointment",
+      "methods": [
+        "OPTIONS",
+        "POST"
+      ],
+      "url": "/api/appointments"
+    },
+    {
+      "endpoint": "appointments.get_appointments",
+      "methods": [
+        "OPTIONS",
+        "HEAD",
+        "GET"
+      ],
+      "url": "/api/appointments"
+    },
+    {
+      "endpoint": "appointments.get_appointment",
+      "methods": [
+        "OPTIONS",
+        "HEAD",
+        "GET"
+      ],
+      "url": "/api/appointments/\u003Cint:appointment_id\u003E"
+    },
+    {
+      "endpoint": "appointments.cancel_appointment",
+      "methods": [
+        "OPTIONS",
+        "DELETE"
+      ],
+      "url": "/api/appointments/\u003Cint:appointment_id\u003E"
+    },
+    {
+      "endpoint": "notifications.send_email_notification",
+      "methods": [
+        "OPTIONS",
+        "POST"
+      ],
+      "url": "/api/notifications/email"
+    },
+    {
+      "endpoint": "follow_up.get_patient_history",
+      "methods": [
+        "OPTIONS",
+        "HEAD",
+        "GET"
+      ],
+      "url": "/api/patients/\u003Cint:patient_id\u003E/history"
+    },
+    {
+      "endpoint": "follow_up.get_all_patient_histories",
+      "methods": [
+        "OPTIONS",
+        "HEAD",
+        "GET"
+      ],
+      "url": "/api/patients/history"
+    },
+    {
+      "endpoint": "home",
+      "methods": [
+        "OPTIONS",
+        "HEAD",
+        "GET"
+      ],
+      "url": "/"
+    },
+    {
+      "endpoint": "debug_routes",
+      "methods": [
+        "OPTIONS",
+        "HEAD",
+        "GET"
+      ],
+      "url": "/debug/routes"
+    }
+  ]
+}

@@ -18,12 +18,10 @@ def generate_doctor():
         "specialty": random.choice(["Cardiology", "Neurology", "Pediatrics", "Orthopedics"])
     }
 
-def generate_medical_record(patient_id, doctor_id):
+def generate_medical_record(patient_id):
     return {
         "patient_id": patient_id,
-        "doctor_id": doctor_id,
-        "diagnosis": fake.sentence(nb_words=5),
-        "prescription": fake.text(max_nb_chars=50)
+        "prescription_details": fake.text(max_nb_chars=50)
     }
 
 # SOAP client
@@ -35,7 +33,7 @@ patient_ids = []
 doctor_ids = []
 
 # Create 100 doctors
-for _ in range(100):
+for _ in range(10):
     doctor_data = generate_doctor()
     response = client.service.add_doctor(**doctor_data)
     print("Doctor Created:", response)
@@ -44,7 +42,7 @@ for _ in range(100):
     doctor_ids.append(doctor_id)
 
 # Create 100 patients
-for _ in range(100):
+for _ in range(10):
     patient_data = generate_patient()
     response = client.service.create_record(**patient_data)
     print("Patient Created:", response)
@@ -53,13 +51,13 @@ for _ in range(100):
     patient_ids.append(patient_id)
 
 # Create 100 medical records
-for _ in range(100):
+for _ in range(10):
     if not patient_ids or not doctor_ids:
         print("No patients or doctors available to create records.")
         break
     patient_id = random.choice(patient_ids)
     doctor_id = random.choice(doctor_ids)
-    medical_record_data = generate_medical_record(patient_id, doctor_id)
+    medical_record_data = generate_medical_record(patient_id)
     response = client.service.add_prescription(**medical_record_data)
     print("Medical Record Created:", response)
 

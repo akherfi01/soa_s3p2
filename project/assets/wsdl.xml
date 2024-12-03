@@ -1,0 +1,387 @@
+
+<wsdl:definitions xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:plink="http://schemas.xmlsoap.org/ws/2003/05/partner-link/" xmlns:wsdlsoap11="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:wsdlsoap12="http://schemas.xmlsoap.org/wsdl/soap12/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:soap11enc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:soap11env="http://schemas.xmlsoap.org/soap/envelope/" xmlns:soap12env="http://www.w3.org/2003/05/soap-envelope" xmlns:soap12enc="http://www.w3.org/2003/05/soap-encoding" xmlns:wsa="http://schemas.xmlsoap.org/ws/2003/03/addressing" xmlns:xop="http://www.w3.org/2004/08/xop/include" xmlns:http="http://schemas.xmlsoap.org/wsdl/http/" xmlns:tns="clinic.services" targetNamespace="clinic.services" name="Application">
+<wsdl:types>
+<xs:schema targetNamespace="clinic.services" elementFormDefault="qualified">
+<xs:complexType name="stringArray">
+<xs:sequence>
+<xs:element name="string" type="xs:string" minOccurs="0" maxOccurs="unbounded" nillable="true"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="list_doctors"/>
+<xs:complexType name="add_doctor">
+<xs:sequence>
+<xs:element name="name" type="xs:string" minOccurs="0" nillable="true"/>
+<xs:element name="specialty" type="xs:string" minOccurs="0" nillable="true"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="add_doctorResponse">
+<xs:sequence>
+<xs:element name="add_doctorResult" type="xs:string" minOccurs="0" nillable="true"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="add_prescription">
+<xs:sequence>
+<xs:element name="patient_id" type="xs:integer" minOccurs="0" nillable="true"/>
+<xs:element name="prescription_details" type="xs:string" minOccurs="0" nillable="true"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="add_prescriptionResponse">
+<xs:sequence>
+<xs:element name="add_prescriptionResult" type="xs:string" minOccurs="0" nillable="true"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="create_record">
+<xs:sequence>
+<xs:element name="name" type="xs:string" minOccurs="0" nillable="true"/>
+<xs:element name="age" type="xs:string" minOccurs="0" nillable="true"/>
+<xs:element name="diagnosis" type="xs:string" minOccurs="0" nillable="true"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="create_recordResponse">
+<xs:sequence>
+<xs:element name="create_recordResult" type="xs:string" minOccurs="0" nillable="true"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="delete_doctor">
+<xs:sequence>
+<xs:element name="doctor_id" type="xs:integer" minOccurs="0" nillable="true"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="delete_doctorResponse">
+<xs:sequence>
+<xs:element name="delete_doctorResult" type="xs:string" minOccurs="0" nillable="true"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="delete_record">
+<xs:sequence>
+<xs:element name="patient_id" type="xs:integer" minOccurs="0" nillable="true"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="delete_recordResponse">
+<xs:sequence>
+<xs:element name="delete_recordResult" type="xs:string" minOccurs="0" nillable="true"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="get_doctor">
+<xs:sequence>
+<xs:element name="doctor_id" type="xs:integer" minOccurs="0" nillable="true"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="get_doctorResponse">
+<xs:sequence>
+<xs:element name="get_doctorResult" type="xs:string" minOccurs="0" nillable="true"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="get_prescriptions">
+<xs:sequence>
+<xs:element name="patient_id" type="xs:integer" minOccurs="0" nillable="true"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="get_record">
+<xs:sequence>
+<xs:element name="patient_id" type="xs:integer" minOccurs="0" nillable="true"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="get_recordResponse">
+<xs:sequence>
+<xs:element name="get_recordResult" type="xs:string" minOccurs="0" nillable="true"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="list_doctorsResponse">
+<xs:sequence>
+<xs:element name="list_doctorsResult" type="tns:stringArray" minOccurs="0" nillable="true"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="update_doctor">
+<xs:sequence>
+<xs:element name="doctor_id" type="xs:integer" minOccurs="0" nillable="true"/>
+<xs:element name="new_specialty" type="xs:string" minOccurs="0" nillable="true"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="update_doctorResponse">
+<xs:sequence>
+<xs:element name="update_doctorResult" type="xs:string" minOccurs="0" nillable="true"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="update_record">
+<xs:sequence>
+<xs:element name="patient_id" type="xs:integer" minOccurs="0" nillable="true"/>
+<xs:element name="new_diagnosis" type="xs:string" minOccurs="0" nillable="true"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="update_recordResponse">
+<xs:sequence>
+<xs:element name="update_recordResult" type="xs:string" minOccurs="0" nillable="true"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="get_prescriptionsResponse">
+<xs:sequence>
+<xs:element name="get_prescriptionsResult" type="tns:stringArray" minOccurs="0" nillable="true"/>
+</xs:sequence>
+</xs:complexType>
+<xs:element name="stringArray" type="tns:stringArray"/>
+<xs:element name="list_doctors" type="tns:list_doctors"/>
+<xs:element name="add_doctor" type="tns:add_doctor"/>
+<xs:element name="add_doctorResponse" type="tns:add_doctorResponse"/>
+<xs:element name="add_prescription" type="tns:add_prescription"/>
+<xs:element name="add_prescriptionResponse" type="tns:add_prescriptionResponse"/>
+<xs:element name="create_record" type="tns:create_record"/>
+<xs:element name="create_recordResponse" type="tns:create_recordResponse"/>
+<xs:element name="delete_doctor" type="tns:delete_doctor"/>
+<xs:element name="delete_doctorResponse" type="tns:delete_doctorResponse"/>
+<xs:element name="delete_record" type="tns:delete_record"/>
+<xs:element name="delete_recordResponse" type="tns:delete_recordResponse"/>
+<xs:element name="get_doctor" type="tns:get_doctor"/>
+<xs:element name="get_doctorResponse" type="tns:get_doctorResponse"/>
+<xs:element name="get_prescriptions" type="tns:get_prescriptions"/>
+<xs:element name="get_record" type="tns:get_record"/>
+<xs:element name="get_recordResponse" type="tns:get_recordResponse"/>
+<xs:element name="list_doctorsResponse" type="tns:list_doctorsResponse"/>
+<xs:element name="update_doctor" type="tns:update_doctor"/>
+<xs:element name="update_doctorResponse" type="tns:update_doctorResponse"/>
+<xs:element name="update_record" type="tns:update_record"/>
+<xs:element name="update_recordResponse" type="tns:update_recordResponse"/>
+<xs:element name="get_prescriptionsResponse" type="tns:get_prescriptionsResponse"/>
+</xs:schema>
+</wsdl:types>
+<wsdl:message name="create_record">
+<wsdl:part name="create_record" element="tns:create_record"/>
+</wsdl:message>
+<wsdl:message name="create_recordResponse">
+<wsdl:part name="create_recordResponse" element="tns:create_recordResponse"/>
+</wsdl:message>
+<wsdl:message name="get_record">
+<wsdl:part name="get_record" element="tns:get_record"/>
+</wsdl:message>
+<wsdl:message name="get_recordResponse">
+<wsdl:part name="get_recordResponse" element="tns:get_recordResponse"/>
+</wsdl:message>
+<wsdl:message name="update_record">
+<wsdl:part name="update_record" element="tns:update_record"/>
+</wsdl:message>
+<wsdl:message name="update_recordResponse">
+<wsdl:part name="update_recordResponse" element="tns:update_recordResponse"/>
+</wsdl:message>
+<wsdl:message name="delete_record">
+<wsdl:part name="delete_record" element="tns:delete_record"/>
+</wsdl:message>
+<wsdl:message name="delete_recordResponse">
+<wsdl:part name="delete_recordResponse" element="tns:delete_recordResponse"/>
+</wsdl:message>
+<wsdl:message name="add_prescription">
+<wsdl:part name="add_prescription" element="tns:add_prescription"/>
+</wsdl:message>
+<wsdl:message name="add_prescriptionResponse">
+<wsdl:part name="add_prescriptionResponse" element="tns:add_prescriptionResponse"/>
+</wsdl:message>
+<wsdl:message name="get_prescriptions">
+<wsdl:part name="get_prescriptions" element="tns:get_prescriptions"/>
+</wsdl:message>
+<wsdl:message name="get_prescriptionsResponse">
+<wsdl:part name="get_prescriptionsResponse" element="tns:get_prescriptionsResponse"/>
+</wsdl:message>
+<wsdl:message name="add_doctor">
+<wsdl:part name="add_doctor" element="tns:add_doctor"/>
+</wsdl:message>
+<wsdl:message name="add_doctorResponse">
+<wsdl:part name="add_doctorResponse" element="tns:add_doctorResponse"/>
+</wsdl:message>
+<wsdl:message name="get_doctor">
+<wsdl:part name="get_doctor" element="tns:get_doctor"/>
+</wsdl:message>
+<wsdl:message name="get_doctorResponse">
+<wsdl:part name="get_doctorResponse" element="tns:get_doctorResponse"/>
+</wsdl:message>
+<wsdl:message name="update_doctor">
+<wsdl:part name="update_doctor" element="tns:update_doctor"/>
+</wsdl:message>
+<wsdl:message name="update_doctorResponse">
+<wsdl:part name="update_doctorResponse" element="tns:update_doctorResponse"/>
+</wsdl:message>
+<wsdl:message name="delete_doctor">
+<wsdl:part name="delete_doctor" element="tns:delete_doctor"/>
+</wsdl:message>
+<wsdl:message name="delete_doctorResponse">
+<wsdl:part name="delete_doctorResponse" element="tns:delete_doctorResponse"/>
+</wsdl:message>
+<wsdl:message name="list_doctors">
+<wsdl:part name="list_doctors" element="tns:list_doctors"/>
+</wsdl:message>
+<wsdl:message name="list_doctorsResponse">
+<wsdl:part name="list_doctorsResponse" element="tns:list_doctorsResponse"/>
+</wsdl:message>
+<wsdl:service name="MedicalRecordsService">
+<wsdl:port name="Application" binding="tns:Application">
+<wsdlsoap11:address location="http://localhost:5000/soap/"/>
+</wsdl:port>
+</wsdl:service>
+<wsdl:service name="PrescriptionsService">
+<wsdl:port name="Application" binding="tns:Application">
+<wsdlsoap11:address location="http://localhost:5000/soap/"/>
+</wsdl:port>
+</wsdl:service>
+<wsdl:service name="DoctorsService">
+<wsdl:port name="Application" binding="tns:Application">
+<wsdlsoap11:address location="http://localhost:5000/soap/"/>
+</wsdl:port>
+</wsdl:service>
+<wsdl:portType name="Application">
+<wsdl:operation name="create_record" parameterOrder="create_record">
+<wsdl:documentation>Create a new medical record.</wsdl:documentation>
+<wsdl:input name="create_record" message="tns:create_record"/>
+<wsdl:output name="create_recordResponse" message="tns:create_recordResponse"/>
+</wsdl:operation>
+<wsdl:operation name="get_record" parameterOrder="get_record">
+<wsdl:documentation>Retrieve a medical record by ID.</wsdl:documentation>
+<wsdl:input name="get_record" message="tns:get_record"/>
+<wsdl:output name="get_recordResponse" message="tns:get_recordResponse"/>
+</wsdl:operation>
+<wsdl:operation name="update_record" parameterOrder="update_record">
+<wsdl:documentation>Update an existing medical record.</wsdl:documentation>
+<wsdl:input name="update_record" message="tns:update_record"/>
+<wsdl:output name="update_recordResponse" message="tns:update_recordResponse"/>
+</wsdl:operation>
+<wsdl:operation name="delete_record" parameterOrder="delete_record">
+<wsdl:documentation>Delete a medical record by ID.</wsdl:documentation>
+<wsdl:input name="delete_record" message="tns:delete_record"/>
+<wsdl:output name="delete_recordResponse" message="tns:delete_recordResponse"/>
+</wsdl:operation>
+<wsdl:operation name="add_prescription" parameterOrder="add_prescription">
+<wsdl:documentation>Add a prescription for a patient.</wsdl:documentation>
+<wsdl:input name="add_prescription" message="tns:add_prescription"/>
+<wsdl:output name="add_prescriptionResponse" message="tns:add_prescriptionResponse"/>
+</wsdl:operation>
+<wsdl:operation name="get_prescriptions" parameterOrder="get_prescriptions">
+<wsdl:documentation>Retrieve all prescriptions for a patient by ID.</wsdl:documentation>
+<wsdl:input name="get_prescriptions" message="tns:get_prescriptions"/>
+<wsdl:output name="get_prescriptionsResponse" message="tns:get_prescriptionsResponse"/>
+</wsdl:operation>
+<wsdl:operation name="add_doctor" parameterOrder="add_doctor">
+<wsdl:documentation>Add a new doctor.</wsdl:documentation>
+<wsdl:input name="add_doctor" message="tns:add_doctor"/>
+<wsdl:output name="add_doctorResponse" message="tns:add_doctorResponse"/>
+</wsdl:operation>
+<wsdl:operation name="get_doctor" parameterOrder="get_doctor">
+<wsdl:documentation>Retrieve a doctor's details by ID.</wsdl:documentation>
+<wsdl:input name="get_doctor" message="tns:get_doctor"/>
+<wsdl:output name="get_doctorResponse" message="tns:get_doctorResponse"/>
+</wsdl:operation>
+<wsdl:operation name="update_doctor" parameterOrder="update_doctor">
+<wsdl:documentation>Update a doctor's specialty.</wsdl:documentation>
+<wsdl:input name="update_doctor" message="tns:update_doctor"/>
+<wsdl:output name="update_doctorResponse" message="tns:update_doctorResponse"/>
+</wsdl:operation>
+<wsdl:operation name="delete_doctor" parameterOrder="delete_doctor">
+<wsdl:documentation>Delete a doctor by ID.</wsdl:documentation>
+<wsdl:input name="delete_doctor" message="tns:delete_doctor"/>
+<wsdl:output name="delete_doctorResponse" message="tns:delete_doctorResponse"/>
+</wsdl:operation>
+<wsdl:operation name="list_doctors" parameterOrder="list_doctors">
+<wsdl:documentation>List all doctors.</wsdl:documentation>
+<wsdl:input name="list_doctors" message="tns:list_doctors"/>
+<wsdl:output name="list_doctorsResponse" message="tns:list_doctorsResponse"/>
+</wsdl:operation>
+</wsdl:portType>
+<wsdl:binding name="Application" type="tns:Application">
+<wsdlsoap11:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+<wsdl:operation name="create_record">
+<wsdlsoap11:operation soapAction="create_record" style="document"/>
+<wsdl:input name="create_record">
+<wsdlsoap11:body use="literal"/>
+</wsdl:input>
+<wsdl:output name="create_recordResponse">
+<wsdlsoap11:body use="literal"/>
+</wsdl:output>
+</wsdl:operation>
+<wsdl:operation name="get_record">
+<wsdlsoap11:operation soapAction="get_record" style="document"/>
+<wsdl:input name="get_record">
+<wsdlsoap11:body use="literal"/>
+</wsdl:input>
+<wsdl:output name="get_recordResponse">
+<wsdlsoap11:body use="literal"/>
+</wsdl:output>
+</wsdl:operation>
+<wsdl:operation name="update_record">
+<wsdlsoap11:operation soapAction="update_record" style="document"/>
+<wsdl:input name="update_record">
+<wsdlsoap11:body use="literal"/>
+</wsdl:input>
+<wsdl:output name="update_recordResponse">
+<wsdlsoap11:body use="literal"/>
+</wsdl:output>
+</wsdl:operation>
+<wsdl:operation name="delete_record">
+<wsdlsoap11:operation soapAction="delete_record" style="document"/>
+<wsdl:input name="delete_record">
+<wsdlsoap11:body use="literal"/>
+</wsdl:input>
+<wsdl:output name="delete_recordResponse">
+<wsdlsoap11:body use="literal"/>
+</wsdl:output>
+</wsdl:operation>
+<wsdl:operation name="add_prescription">
+<wsdlsoap11:operation soapAction="add_prescription" style="document"/>
+<wsdl:input name="add_prescription">
+<wsdlsoap11:body use="literal"/>
+</wsdl:input>
+<wsdl:output name="add_prescriptionResponse">
+<wsdlsoap11:body use="literal"/>
+</wsdl:output>
+</wsdl:operation>
+<wsdl:operation name="get_prescriptions">
+<wsdlsoap11:operation soapAction="get_prescriptions" style="document"/>
+<wsdl:input name="get_prescriptions">
+<wsdlsoap11:body use="literal"/>
+</wsdl:input>
+<wsdl:output name="get_prescriptionsResponse">
+<wsdlsoap11:body use="literal"/>
+</wsdl:output>
+</wsdl:operation>
+<wsdl:operation name="add_doctor">
+<wsdlsoap11:operation soapAction="add_doctor" style="document"/>
+<wsdl:input name="add_doctor">
+<wsdlsoap11:body use="literal"/>
+</wsdl:input>
+<wsdl:output name="add_doctorResponse">
+<wsdlsoap11:body use="literal"/>
+</wsdl:output>
+</wsdl:operation>
+<wsdl:operation name="get_doctor">
+<wsdlsoap11:operation soapAction="get_doctor" style="document"/>
+<wsdl:input name="get_doctor">
+<wsdlsoap11:body use="literal"/>
+</wsdl:input>
+<wsdl:output name="get_doctorResponse">
+<wsdlsoap11:body use="literal"/>
+</wsdl:output>
+</wsdl:operation>
+<wsdl:operation name="update_doctor">
+<wsdlsoap11:operation soapAction="update_doctor" style="document"/>
+<wsdl:input name="update_doctor">
+<wsdlsoap11:body use="literal"/>
+</wsdl:input>
+<wsdl:output name="update_doctorResponse">
+<wsdlsoap11:body use="literal"/>
+</wsdl:output>
+</wsdl:operation>
+<wsdl:operation name="delete_doctor">
+<wsdlsoap11:operation soapAction="delete_doctor" style="document"/>
+<wsdl:input name="delete_doctor">
+<wsdlsoap11:body use="literal"/>
+</wsdl:input>
+<wsdl:output name="delete_doctorResponse">
+<wsdlsoap11:body use="literal"/>
+</wsdl:output>
+</wsdl:operation>
+<wsdl:operation name="list_doctors">
+<wsdlsoap11:operation soapAction="list_doctors" style="document"/>
+<wsdl:input name="list_doctors">
+<wsdlsoap11:body use="literal"/>
+</wsdl:input>
+<wsdl:output name="list_doctorsResponse">
+<wsdlsoap11:body use="literal"/>
+</wsdl:output>
+</wsdl:operation>
+</wsdl:binding>
+</wsdl:definitions>

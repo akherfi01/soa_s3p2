@@ -14,7 +14,7 @@ const CreateAppointment = () => {
 
   const createAppointment = async () => {
     try {
-      const res = await axios.post("/appointments", formData);
+      const res = await axios.post("http://localhost:5000/appointments", formData); // Updated URL
       setResponse(res.data);
       setError(null);
     } catch (err) {

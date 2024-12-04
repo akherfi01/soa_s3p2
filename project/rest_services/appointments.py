@@ -1,6 +1,7 @@
 from flask import Blueprint, jsonify, request
 from database.models import Appointment, session
-from notifications import send_email_notification
+from rest_services.notifications import send_email_notification
+
 
 appointments_bp = Blueprint("appointments", __name__)
 

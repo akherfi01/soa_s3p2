@@ -11,41 +11,38 @@ function Appointments() {
     reason: '',
   });
 
-  // Fetch all appointments
+  useEffect(() => {
+    fetchAppointments();
+  }, []);
+
   const fetchAppointments = async () => {
     try {
       const response = await api.get('/appointments');
       setAppointments(response.data);
-    } catch (err) {
-      console.error('Error fetching appointments:', err);
+    } catch (error) {
+      console.error('Error fetching appointments:', error);
     }
   };
 
-  // Create a new appointment
   const createAppointment = async (e) => {
     e.preventDefault();
     try {
       await api.post('/appointments', formData);
-      fetchAppointments(); // Refresh the list
+      fetchAppointments();
       setFormData({ patient_name: '', email: '', date: '', time: '', reason: '' });
-    } catch (err) {
-      console.error('Error creating appointment:', err);
+    } catch (error) {
+      console.error('Error creating appointment:', error);
     }
   };
 
-  // Delete an appointment
   const deleteAppointment = async (id) => {
     try {
       await api.delete(`/appointments/${id}`);
-      fetchAppointments(); // Refresh the list
-    } catch (err) {
-      console.error('Error deleting appointment:', err);
+      fetchAppointments();
+    } catch (error) {
+      console.error('Error deleting appointment:', error);
     }
   };
-
-  useEffect(() => {
-    fetchAppointments();
-  }, []);
 
   return (
     <div>
@@ -89,7 +86,7 @@ function Appointments() {
       <ul>
         {appointments.map((appt) => (
           <li key={appt.id}>
-            <strong>{appt.patient_name}</strong> - {appt.date} at {appt.time}
+            <strong>{appt.patient_name}</strong> ({appt.date} at {appt.time})
             <button onClick={() => deleteAppointment(appt.id)}>Delete</button>
           </li>
         ))}

@@ -1,6 +1,6 @@
 from textual.app import App, ComposeResult
 from textual.containers import Container
-from textual.widgets import Static, Button, Input, TextLog
+from textual.widgets import Static, Button, Input
 import requests
 
 API_URL = "http://localhost:5000/api"
@@ -10,6 +10,12 @@ class TUIFrontEnd(App):
     Screen {
         align: center middle;
     }
+    Static#output {
+        border: round green;
+        padding: 1;
+        height: 10;
+        overflow: scroll;
+    }
     """
 
     def compose(self) -> ComposeResult:
@@ -18,27 +24,13 @@ class TUIFrontEnd(App):
         yield Button("Add Appointment", id="add_btn")
         yield Button("Delete Appointment", id="delete_btn")
         yield Input(placeholder="Enter JSON for POST / ID for DELETE", id="input")
-        yield TextLog(id="output", highlight=True)
+        yield Static("Output will appear here...", id="output")
 
     def on_button_pressed(self, event):
         btn_id = event.button.id
         user_input = self.query_one("#input").value
-        output_log = self.query_one("#output")
+        output_widget = self.query_one("#output")
 
         try:
-            if btn_id == "view_btn":
-                response = requests.get(f"{API_URL}/appointments")
-                output_log.write(response.json())
-            elif btn_id == "add_btn":
-                data = eval(user_input)  # Example: {"patient_name": "John", "date": "2024-12-04", "time": "10:00", "reason": "Checkup"}
-                response = requests.post(f"{API_URL}/appointments", json=data)
-                output_log.write(response.json())
-            elif btn_id == "delete_btn":
-                response = requests.delete(f"{API_URL}/appointments/{user_input}")
-                output_log.write(response.json())
-        except Exception as e:
-            output_log.write(f"Error: {e}")
-
-if __name__ == "__main__":
-    TUIFrontEnd.run()
+            if btn_id == "view_btn
 

@@ -30,9 +30,11 @@ class Appointment(Base):
     __tablename__ = 'appointments'
     id = Column(Integer, primary_key=True)
     patient_name = Column(String, nullable=False)
+    email = Column(String, nullable=False)  
     date = Column(String, nullable=False)
     time = Column(String, nullable=False)
     reason = Column(Text, nullable=False)
+
 
 class PatientHistory(Base):
     __tablename__ = 'patient_history'

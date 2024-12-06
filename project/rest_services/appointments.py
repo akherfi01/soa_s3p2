@@ -16,7 +16,7 @@ def create_appointment():
         doctor_id=data.get("doctor_id")  # Assuming doctor_id is included in the request
     ).first()
     if doctor_appointments:
-        return jsonify({"error": "Doctor is not available at the requested time."}), 400
+        return jsonify({"error": "Doctor is not available at the requested time,choose another time or another doctor."}), 400
 
     # Register appointment
     appointment = Appointment(

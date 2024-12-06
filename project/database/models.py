@@ -36,12 +36,6 @@ class Appointment(Base):
     reason = Column(Text, nullable=False)
 
 
-class PatientHistory(Base):
-    __tablename__ = 'patient_history'
-    id = Column(Integer, primary_key=True)
-    patient_id = Column(Integer, nullable=False)
-    date = Column(String, nullable=False)
-    doctor = Column(String, nullable=False)
-    report = Column(Text, nullable=False)
+
 
 Base.metadata.create_all(engine)

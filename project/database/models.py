@@ -34,6 +34,7 @@ class Appointment(Base):
     date = Column(String, nullable=False)
     time = Column(String, nullable=False)
     reason = Column(Text, nullable=False)
+    doctor_id = Column(Integer, nullable=False) 
 
 
 class PatientHistory(Base):

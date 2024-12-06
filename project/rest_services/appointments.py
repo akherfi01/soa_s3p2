@@ -2,19 +2,30 @@ from flask import Blueprint, jsonify, request
 from database.models import Appointment, session
 from rest_services.notifications import send_email_notification
 
-
 appointments_bp = Blueprint("appointments", __name__)
 
 # Create an appointment
 @appointments_bp.route("/appointments", methods=["POST"])
 def create_appointment():
     data = request.get_json()
+
+    # Check doctor availability
+    doctor_appointments = session.query(Appointment).filter_by(
+        date=data["date"], 
+        time=data["time"], 
+        doctor_id=data.get("doctor_id")  # Assuming doctor_id is included in the request
+    ).first()
+    if doctor_appointments:
+        return jsonify({"error": "Doctor is not available at the requested time."}), 400
+
+    # Register appointment
     appointment = Appointment(
         patient_name=data["patient_name"],
         email=data["email"],  # Include email in the request
         date=data["date"],
         time=data["time"],
-        reason=data["reason"]
+        reason=data["reason"],
+        doctor_id=data.get("doctor_id")  # Assuming doctor_id is included in the request
     )
     session.add(appointment)
     session.commit()

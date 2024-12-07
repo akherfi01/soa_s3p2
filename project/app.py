@@ -42,4 +42,4 @@ def home():
     return "Bienvenue sur l'application combinée REST et SOAP."
 
 if __name__ == "__main__":
-    app.run(debug=True, host='0.0.0.0', port=54321)
+    app.run(debug=True)

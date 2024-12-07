@@ -1,6 +1,7 @@
 import os
 import requests
 from zeep import Client, Transport
+from rest_services.notification_indiv import send_email_to_patient
 
 # Base URLs
 REST_BASE_URL = "http://localhost:5000/api"
@@ -118,6 +119,17 @@ def update_medical_record():
         int(input("Enter medical record ID: ")),
         input("Enter new diagnosis: "),
     )
+
+def delete_medical_record():
+    print("\n--- Delete Medical Record ---")
+    try:
+        record_id = int(input("Enter medical record ID to delete: "))
+        result = soap_client.service.delete_record(record_id)
+        print(f"Response: {result}")
+    except Exception as e:
+        print(f"SOAP Error: {e}")
+    pause()
+
 
 
 # --- DOCTORS FUNCTIONS (SOAP) ---
@@ -242,6 +254,40 @@ def prescriptions_menu():
         else:
             print("Invalid choice. Please try again.")
 
+# --- FOLLOW-UP FUNCTIONS ---
+def get_patient_history():
+    print("\n--- Get Patient History ---")
+    patient_id = input("Enter Patient ID: ")
+    response = requests.get(f"{REST_BASE_URL}/patients/{patient_id}/history")
+    history = handle_rest_response(response)
+
+    if history:
+        print("\n--- Patient History ---")
+        for record in history:
+            print(f"Record ID: {record['id']}")
+            print(f"Patient Name: {record['patient_name']}")
+            print(f"Details: {record['details']}")
+            print("-" * 30)
+    else:
+        print("No history found for the given patient ID.")
+    pause()
+
+def follow_up_menu():
+    while True:
+        clear_screen()
+        print("\n--- Follow-Up Menu ---")
+        print("1. Get Patient History")
+        print("q. Back to Main Menu")
+        choice = input("Enter your choice: ")
+
+        if choice == "1":
+            get_patient_history()
+        elif choice == "q":
+            break
+        else:
+            print("Invalid choice. Please try again.")
+
+
 
 # --- MENUS ---
 def appointments_menu():
@@ -273,6 +319,7 @@ def medical_records_menu():
         print("1. Create Medical Record")
         print("2. Get Medical Record")
         print("3. Update Medical Record")
+        print("4. Delete Medical Record")  
         print("q. Back to Main Menu")
         choice = input("Enter your choice: ")
 
@@ -282,6 +329,8 @@ def medical_records_menu():
             get_medical_record()
         elif choice == "3":
             update_medical_record()
+        elif choice == "4":  
+            delete_medical_record()
         elif choice == "q":
             break
         else:
@@ -296,6 +345,8 @@ def main_menu():
         print("2. Manage Medical Records ")
         print("3. Manage Doctors ")
         print("4. Manage Prescriptions ")
+        print("5. Follow-Up Services")
+        print("6. Send an Email notification  to Patient")
         print("q. Exit")
         choice = input("Enter your choice: ")
 
@@ -307,6 +358,10 @@ def main_menu():
             doctors_menu()
         elif choice == "4":
             prescriptions_menu()
+        elif choice == "5":  
+            follow_up_menu()
+        elif choice == "6":
+            send_email_to_patient()
         elif choice == "q":
             print("Exiting... Goodbye!")
             break

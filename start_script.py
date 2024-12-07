@@ -1,35 +1,33 @@
 import threading
 import time
-from subprocess import Popen
+import subprocess
 
-# Function to start the server
+# Function to start the server in the background
 def start_server():
-    # Example: Running the Flask server (replace with your actual command)
-    print("Starting server...")
-    Popen(["python", "/app/soa_s3p2/project/app.py"])  # Start the server
+    print("Starting server in the background...")
+    with open("/dev/null", "wb") as devnull:
+        subprocess.Popen(
+            ["python", "/app/soa_s3p2/project/app.py"],
+            stdout=devnull,
+            stderr=devnull,
+        )
 
-# Function to start the client
+# Function to start the client in the foreground
 def start_client():
-    # Example: Running the client script (replace with your actual command)
-    print("Starting client...")
-    Popen(["python", "/app/soa_s3p2/project/p.py"])  # Start the client
+    print("Starting client in the foreground...")
+    subprocess.run(["python", "/app/soa_s3p2/project/p.py"])
 
-# Function to start both server and client in separate threads
+# Function to start both server and client
 def start():
-    # Create thread for server
+    # Create a thread for the server
     server_thread = threading.Thread(target=start_server)
     server_thread.start()
 
-    # Give the server a short time to initialize
-    time.sleep(2)  # Adjust time if necessary for your server to start
+    # Give the server some time to initialize
+    time.sleep(2)  # Adjust this delay as needed
 
-    # Create thread for client
-    client_thread = threading.Thread(target=start_client)
-    client_thread.start()
-
-    # Optionally, wait for both threads to finish
-    server_thread.join()
-    client_thread.join()
+    # Start the client in the foreground
+    start_client()
 
 if __name__ == "__main__":
     start()

@@ -20,6 +20,5 @@ EXPOSE 5000
 
 # Set the default command to run the start.sh script
 # Start the server in the background and then run the CLI client
-CMD python /app/soa_s3p2/project/app.py & \
-    python /app/soa_s3p2/project/p.py
+CMD ["bash", "/app/soa_s3p2/start_script.sh"]
 

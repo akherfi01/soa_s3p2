@@ -16,7 +16,7 @@ RUN pip install --upgrade pip \
 
 
 # Expose a port if necessary (optional)
-EXPOSE 54321
+EXPOSE 5000
 
 # Set the default command to run the start.sh script
 # Start the server in the background and then run the CLI client
